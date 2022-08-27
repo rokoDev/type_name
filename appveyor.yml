@@ -8,7 +8,7 @@ branches:
     - master
 
 # set clone depth
-clone_depth: 5
+clone_depth: 1
 
 platform:
   - x64
@@ -16,12 +16,6 @@ platform:
 configuration:
   - Debug
   - Release
-
-for:
--
-  branches:
-    only:
-      - master
 
 matrix:
   fast_finish: true
@@ -77,18 +71,18 @@ install:
 before_build:
   - cmake --version
   - C:\Tools\vcpkg\vcpkg.exe integrate remove
+  - echo %PATH%
   - cmake -E make_directory build
   - cd build
-  - echo %PATH%
+  - cmake -G "Visual Studio 16 2019" -DCMAKE_TOOLCHAIN_FILE=deps_content/cmake-toolchains/clang-cl.cmake ..
   # - ps: |
   #     clang-cl /?
-  - cmake -G "Visual Studio 16 2019" -A x64 -T ClangCL ..
 
 build_script:
-  - cmake --build . --target type_name_tests --config %CONFIGURATION%
+  - cmake --build . --config %CONFIGURATION%
 
 test_script:
-  - ctest -VV --output-on-failure -C %CONFIGURATION%
+  - ctest -I ,,1 -C %CONFIGURATION% --output-on-failure
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

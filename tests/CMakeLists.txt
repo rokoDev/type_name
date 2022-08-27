@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION ${cmake_version})
 set(ProjectName ${ProjectName}_tests)
 project(${ProjectName})
 
-get_filename_component(deps_content "../deps_content"
-                       REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
-set(FETCHCONTENT_BASE_DIR ${deps_content})
+include(FetchContent)
+
+cmake_path(APPEND FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}" "deps_content" "${CMAKE_GENERATOR_NAME_WITHOUT_SPACES}")
 
 FetchContent_Declare(googletest
 	GIT_REPOSITORY https://github.com/google/googletest.git
@@ -25,7 +25,7 @@ macro(package_add_test TESTNAME)
   set_target_properties(${TESTNAME} PROPERTIES XCODE_GENERATE_SCHEME ON)
   set_target_properties(${TESTNAME} PROPERTIES XCODE_SCHEME_ARGUMENTS "--gtest_color=no")
   target_sources(${TESTNAME} PRIVATE ${ARGN})
-  target_link_libraries(${TESTNAME} gtest gmock gtest_main fmt type_name)
+  target_link_libraries(${TESTNAME} gtest gmock gtest_main type_name)
   add_test(NAME ${TESTNAME} COMMAND ${TESTNAME})
   set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
 
