@@ -57,6 +57,9 @@ constexpr std::string_view type_name()
         wrapped_name.length() - prefix_length - suffix_length;
     return wrapped_name.substr(prefix_length, type_name_length);
 }
+
+template <typename T>
+inline constexpr std::string_view kName = type_name<T>();
 }  // namespace type_name
 
 #endif /* type_name_h */
