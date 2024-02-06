@@ -3,13 +3,11 @@ cmake_minimum_required(VERSION ${cmake_version})
 set(ProjectName ${ProjectName}_tests)
 project(${ProjectName})
 
-include(FetchContent)
-
-cmake_path(APPEND FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}" "deps_content" "${CMAKE_GENERATOR_NAME_WITHOUT_SPACES}")
-
-FetchContent_Declare(googletest
-	GIT_REPOSITORY https://github.com/google/googletest.git
-	GIT_TAG a1cc8c55195661a58ad60c3bb062a0b9c302710d)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        530d5c8c84abd2a46f38583ee817743c9b3a42b4
+  )
 
 FetchContent_MakeAvailable(googletest)
 
@@ -42,5 +40,5 @@ package_add_test(${ProjectName}
 	src/type_name_tests.cpp
 	)
 
-# If use IDE add gtest, gmock, gtest_main and gmock_main targets into deps/googletest group
-set_target_properties(gtest gmock gtest_main gmock_main PROPERTIES FOLDER deps/googletest)
+# If use IDE add gtest, gmock, gtest_main and gmock_main targets into tests/deps/googletest group
+set_target_properties(gtest gmock gtest_main gmock_main PROPERTIES FOLDER tests/deps/googletest)
