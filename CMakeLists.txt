@@ -38,13 +38,15 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Create library
 add_library(type_name INTERFACE)
 
+add_library(Type_name::type_name ALIAS type_name)
+
 # Add sources, definitions, link dependencies, etc.
 add_subdirectory(sources)
 
 # Create groups in the IDE which mirrors directory structure on the hard disk
 get_target_property(type_name_sources type_name SOURCES)
 source_group(
-  TREE   ${CMAKE_CURRENT_SOURCE_DIR}/sources/include
+  TREE   ${CMAKE_CURRENT_SOURCE_DIR}/sources/include/type_name
   FILES  ${type_name_sources}
 )
 
